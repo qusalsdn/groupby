@@ -1,17 +1,28 @@
-import { faCalendarPlus, faCampground } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { userCheck } from "./utils/userCheck";
 
 export default function Home() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    userCheck(setLoading, router);
+  }, [router]);
+
   return (
     <div>
-      <nav className="flex items-center justify-between">
-        <div>
-          <FontAwesomeIcon icon={faCampground} className="w-12 h-12 text-green-500" />
-          <p>GroupBy</p>
-        </div>
+      {!loading && (
+        <nav className="flex items-center justify-between">
+          <span className="text-3xl font-bold">GroupBy</span>
 
-        <FontAwesomeIcon icon={faCalendarPlus} className="w-6 h-6" />
-      </nav>
+          <button type="button" className="bg-red-400 text-white py-1 px-3 rounded-md">
+            로그아웃
+          </button>
+        </nav>
+      )}
     </div>
   );
 }
